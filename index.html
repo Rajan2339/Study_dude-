@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kallio | Personal Academic Studio</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg: #F9F8F6;
+      --surface: #FFFFFF;
+      --surface-subtle: #F2F0EB;
+      --border: #E5E2DA;
+      --border-strong: #D3CEBE;
+      
+      --text-main: #24221E;
+      --text-muted: #6B685F;
+      --text-faint: #A09D94;
+
+      --accent: #2E4034; /* Deep Forest/Botanical */
+      --accent-hover: #1F2D24;
+      --accent-soft: #EAEFEA;
+      --accent-subtle: #DDE5DC;
+      
+      --amber: #B45309;
+      --amber-bg: #FEF3C7;
+      --red: #991B1B;
+      --red-bg: #FEE2E2;
+      --blue: #1E40AF;
+      --blue-bg: #DBEAFE;
+      --green: #166534;
+      --green-bg: #DCFCE7;
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --shadow-soft: 0 2px 8px rgba(36, 34, 30, 0.04), 0 1px 2px rgba(36, 34, 30, 0.02);
+      --shadow-float: 0 14px 34px -6px rgba(36, 34, 30, 0.08), 0 4px 12px -2px rgba(36, 34, 30, 0.03);
+    }
+
+    [data-theme="dark"] {
+      --bg: #151413;
+      --surface: #1C1B19;
+      --surface-subtle: #252320;
+      --border: #2E2B27;
+      --border-strong: #3D3934;
+      
+      --text-main: #ECEAE4;
+      --text-muted: #A39F93;
+      --text-faint: #6A665D;
+
+      --accent: #B2C9B7;
+      --accent-hover: #C5D8C9;
+      --accent-soft: #253328;
+      --accent-subtle: #314436;
+
+      --amber: #FBBF24;
+      --amber-bg: #352504;
+      --red: #F87171;
+      --red-bg: #371414;
+      --blue: #60A5FA;
+      --blue-bg: #14233D;
+      --green: #4ADE80;
+      --green-bg: #112F1B;
+
+      --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.25);
+      --shadow-float: 0 16px 36px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    h1, h2, h3, .serif-heading {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+
+    input, select, textarea, button {
+      font-family: inherit;
+      color: inherit;
+    }
+
+    /* Utilitarian micro-classes */
+    .hidden { display: none !important; }
+    .mono { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
+
+    /* AUTH & ONBOARDING CANVAS */
+    #auth-view {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      position: relative;
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 450px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+      box-shadow: var(--shadow-float);
+    }
+
+    .auth-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      background: var(--accent);
+      color: var(--surface);
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius-sm);
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.25rem;
+    }
+
+    [data-theme="dark"] .brand-mark {
+      color: #151413;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 11px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      color: var(--text-main);
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .input-field:focus {
+      border-color: var(--text-main);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 18px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #FFFFFF;
+      width: 100%;
+    }
+
+    [data-theme="dark"] .btn-primary {
+      color: #151413;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--surface-subtle);
+      border-color: var(--border);
+      color: var(--text-main);
+    }
+
+    .btn-secondary:hover {
+      background: var(--border);
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 0.82rem;
+    }
+
+    .pill-selector {
+      display: flex;
+      background: var(--surface-subtle);
+      padding: 3px;
+      border-radius: var(--radius-sm);
+      gap: 4px;
+    }
+
+    .pill-btn {
+      flex: 1;
+      padding: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .pill-btn.active {
+      background: var(--surface);
+      color: var(--text-main);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+
+    /* MAIN APP WORKSPACE */
+    #app-workspace {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+    }
+
+    @media (max-width: 900px) {
+      #app-workspace {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Sidebar Navigation */
+    aside.sidebar {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .user-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-soft);
+      color: var(--accent);
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 1rem;
+      border: 1px solid var(--accent-subtle);
+    }
+
+    .nav-menu {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      width: 100%;
+      text-align: left;
+      transition: all 0.15s ease;
+    }
+
+    .nav-item:hover {
+      background: var(--surface-subtle);
+      color: var(--text-main);
+    }
+
+    .nav-item.active {
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Content Area */
+    main.main-viewport {
+      padding: 36px 48px;
+      overflow-y: auto;
+      max-width: 1200px;
+    }
+
+    @media (max-width: 768px) {
+      main.main-viewport {
+        padding: 20px;
+      }
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-title h1 {
+      font-size: 2.3rem;
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+
+    .header-title p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    /* Cards & Containers */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 24px;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 800px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Empty Slate Component */
+    .empty-state {
+      text-align: center;
+      padding: 56px 20px;
+      border: 1px dashed var(--border-strong);
+      border-radius: var(--radius-md);
+      background: var(--bg);
+    }
+
+    .empty-state i {
+      stroke-width: 1.5;
+      color: var(--text-faint);
+      margin-bottom: 14px;
+    }
+
+    .empty-state h3 {
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+    }
+
+    .empty-state p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      max-width: 400px;
+      margin: 0 auto 18px;
+    }
+
+    /* Subject & Exam Schedule Component */
+    .subject-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: border-color 0.15s ease;
+    }
+
+    .subject-card:hover {
+      border-color: var(--border-strong);
+    }
+
+    .subject-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .badge-urgent { background: var(--red-bg); color: var(--red); }
+    .badge-steady { background: var(--amber-bg); color: var(--amber); }
+    .badge-ready  { background: var(--green-bg); color: var(--green); }
+    .badge-idle   { background: var(--surface-subtle); color: var(--text-muted); }
+
+    .progress-track {
+      width: 100%;
+      height: 6px;
+      background: var(--surface-subtle);
+      border-radius: 99px;
+      overflow: hidden;
+      margin: 12px 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 99px;
+      transition: width 0.3s ease;
+    }
+
+    .topic-checklist {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 14px;
+      max-height: 220px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .topic-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      padding: 6px 8px;
+      border-radius: 4px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+    }
+
+    .topic-item.completed {
+      text-decoration: line-through;
+      color: var(--text-faint);
+      opacity: 0.75;
+    }
+
+    .topic-item input[type="checkbox"] {
+      accent-color: var(--accent);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    /* Modal Sheet */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(2px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 16px;
+    }
+
+    .modal-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 520px;
+      padding: 28px;
+      box-shadow: var(--shadow-float);
+      animation: modalSlide 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modalSlide {
+      from { transform: translateY(10px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Summarizer & Flashcards Layout */
+    .summary-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-top: 18px;
+    }
+
+    .flashcard {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 28px 24px;
+      cursor: pointer;
+      perspective: 1000px;
+      min-height: 170px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .flashcard:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-2px);
+    }
+
+    .flashcard-indicator {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-faint);
+      margin-bottom: 8px;
+    }
+
+    /* Pomodoro Timer */
+    .timer-display {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 3.5rem;
+      text-align: center;
+      margin: 16px 0;
+      font-weight: 500;
+      letter-spacing: -0.04em;
+    }
+
+    /* Utilities */
+    .action-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- STEP 1 & 2: ONBOARDING / LOGIN VIEW -->
+  <section id="auth-view">
+    <div class="auth-card" id="auth-step-login">
+      <div class="auth-brand">
+        <div class="brand-mark">K</div>
+        <div>
+          <h2 style="font-size: 1.4rem;">Kallio Studio</h2>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">Calm, deliberate academic planning</p>
+        </div>
+      </div>
+
+      <form id="form-login" onsubmit="handleLoginSubmit(event)">
+        <div class="form-group">
+          <label>Username or Student ID</label>
+          <input type="text" id="login-username" class="input-field" placeholder="e.g. aditya_kumar" required autofocus />
+        </div>
+        <div class="form-group">
+          <label>Passcode / PIN (Stored Locally)</label>
+          <input type="password" id="login-pin" class="input-field" placeholder="••••" maxlength="8" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Enter Academic Workspace</button>
+      </form>
+    </div>
+
+    <!-- Onboarding: Details for first time or profile update -->
+    <div class="auth-card hidden" id="auth-step-profile">
+      <div class="auth-brand">
+        <div class="brand-mark">K</div>
+        <div>
+          <h2 style="font-size: 1.4rem;">Setup Academic Profile</h2>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">Configuring your personalized syllabus pace</p>
+        </div>
+      </div>
+
+      <form id="form-profile" onsubmit="handleProfileSubmit(event)">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="prof-fullname" class="input-field" placeholder="e.g. Elena Rostova" required />
+        </div>
+
+        <div class="form-group">
+          <label>Academic Institution Type</label>
+          <div class="pill-selector">
+            <button type="button" class="pill-btn active" id="btn-type-school" onclick="toggleInstType('school')">School</button>
+            <button type="button" class="pill-btn" id="btn-type-college" onclick="toggleInstType('college')">College / University</button>
+          </div>
+        </div>
+
+        <!-- School Specific Fields -->
+        <div id="school-fields">
+          <div class="form-group">
+            <label>Current Standard / Grade</label>
+            <select id="prof-standard" class="input-field">
+              <option value="Grade 8">Grade 8</option>
+              <option value="Grade 9">Grade 9</option>
+              <option value="Grade 10 - Matric / Secondary">Grade 10 (Secondary / Board)</option>
+              <option value="Grade 11">Grade 11 (Higher Secondary - Year 1)</option>
+              <option value="Grade 12 - Senior Secondary">Grade 12 (Senior Secondary - Finals)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- College Specific Fields -->
+        <div id="college-fields" class="hidden">
+          <div class="form-group">
+            <label>Course / Degree Program</label>
+            <input type="text" id="prof-course" class="input-field" placeholder="e.g. B.Tech Computer Science, MBBS, B.Com" />
+          </div>
+          <div class="form-group">
+            <label>Current Semester / Year</label>
+            <input type="text" id="prof-sem" class="input-field" placeholder="e.g. Semester 5 / Year 3" />
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Complete Setup & Enter Studio</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- STEP 3: MAIN AUTHENTICATED WORKSPACE -->
+  <div id="app-workspace" class="hidden">
+    
+    <!-- Collapsible/Clean Sidebar -->
+    <aside class="sidebar">
+      <div>
+        <div class="user-badge">
+          <div class="user-avatar" id="nav-avatar">U</div>
+          <div style="overflow: hidden;">
+            <div id="nav-fullname" style="font-weight: 600; font-size: 0.92rem; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">Student</div>
+            <div id="nav-inst-details" class="mono" style="color: var(--text-muted); font-size: 0.72rem;">Academic Plan</div>
+          </div>
+        </div>
+
+        <nav class="nav-menu">
+          <button class="nav-item active" onclick="switchTab('dashboard')">
+            <i data-lucide="layout-grid" style="width: 17px; height: 17px;"></i> Overview
+          </button>
+          <button class="nav-item" onclick="switchTab('planner')">
+            <i data-lucide="calendar" style="width: 17px; height: 17px;"></i> Exam Timetable & Pace
+          </button>
+          <button class="nav-item" onclick="switchTab('summarizer')">
+            <i data-lucide="sparkles" style="width: 17px; height: 17px;"></i> Note Synthesizer
+          </button>
+          <button class="nav-item" onclick="switchTab('focus')">
+            <i data-lucide="clock" style="width: 17px; height: 17px;"></i> Focus Chronometer
+          </button>
+        </nav>
+      </div>
+
+      <div style="padding-top: 24px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px;">
+        <button class="btn btn-secondary btn-sm" onclick="toggleTheme()" style="justify-content: flex-start; width: 100%;">
+          <i data-lucide="sun-moon" style="width: 15px; height: 15px;"></i> Toggle Theme
+        </button>
+        <button class="btn btn-secondary btn-sm" onclick="handleLogout()" style="justify-content: flex-start; width: 100%; color: var(--red);">
+          <i data-lucide="log-out" style="width: 15px; height: 15px;"></i> Terminate Session
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Content Panels -->
+    <main class="main-viewport">
+      
+      <!-- TAB: DASHBOARD -->
+      <section id="tab-dashboard">
+        <header class="page-header">
+          <div class="header-title">
+            <h1 id="dash-greeting">Welcome</h1>
+            <p>Here is your current preparation velocity and syllabus progress.</p>
+          </div>
+          <div>
+            <button class="btn btn-secondary btn-sm" onclick="openSubjectModal()">
+              <i data-lucide="plus" style="width: 15px; height: 15px;"></i> Add Subject
+            </button>
+          </div>
+        </header>
+
+        <div class="grid-2" style="margin-bottom: 24px;">
+          <div class="card" style="margin-bottom: 0;">
+                        <span class="mono" style="color: var(--text-faint); text-transform: uppercase;">Upcoming Target</span>
+            <div id="dash-nearest-exam" style="margin-top: 8px;">
+              <span style="font-size: 1.1rem; color: var(--text-muted);">No exams registered yet.</span>
+            </div>
+          </div>
+          <div class="card" style="margin-bottom: 0;">
+            <span class="mono" style="color: var(--text-faint); text-transform: uppercase;">Global Preparedness</span>
+            <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 8px;">
+              <span id="dash-global-pct" style="font-size: 2.2rem; font-family: 'Instrument Serif', serif;">0%</span>
+              <span style="font-size: 0.85rem; color: var(--text-muted);" id="dash-global-subtext">0 chapters mastered</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <h2 style="font-size: 1.4rem;">Current Subjects</h2>
+            <span class="mono" id="subject-count-tag" style="font-size: 0.8rem; color: var(--text-muted);">0 active</span>
+          </div>
+
+          <div id="subject-list-container">
+            <!-- Dynamically injected or empty slate -->
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB: EXAM PLANNER & SYLLABUS -->
+      <section id="tab-planner" class="hidden">
+        <header class="page-header">
+          <div class="header-title">
+            <h1>Exam Deadlines & Pacing</h1>
+            <p>Deterministic calculations based on your days remaining and unstudied topics.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="openSubjectModal()">
+            <i data-lucide="plus" style="width: 15px; height: 15px;"></i> New Exam Track
+          </button>
+        </header>
+
+        <div id="planner-subject-cards">
+          <!-- Rendered subject cards with line-by-line topic pacing -->
+        </div>
+      </section>
+
+      <!-- TAB: NOTE SYNTHESIZER & STUDY MATERIAL -->
+      <section id="tab-summarizer" class="hidden">
+        <header class="page-header">
+          <div class="header-title">
+            <h1>Study Material Synthesizer</h1>
+            <p>Distill dense reference papers, textbook chapters, or lecture notes into high-retention artifacts.</p>
+          </div>
+        </header>
+
+        <div class="card">
+          <div class="form-group">
+            <label>Document Title or Subject Topic</label>
+            <input type="text" id="summary-doc-title" class="input-field" placeholder="e.g. Photosynthesis: Light-Dependent Reactions" />
+          </div>
+
+          <div class="form-group">
+            <label>Paste Lecture Notes or Study Material</label>
+            <textarea id="summary-raw-text" class="input-field" rows="8" placeholder="Paste textbook paragraphs, raw transcriptions, or study notes here..."></textarea>
+          </div>
+
+          <div style="display: flex; gap: 10px; align-items: center; justify-content: space-between;">
+            <div>
+              <label class="btn btn-secondary btn-sm" style="cursor: pointer;">
+                <i data-lucide="file-up" style="width: 15px; height: 15px;"></i> Upload .txt File
+                <input type="file" id="file-uploader" accept=".txt,.md" style="display: none;" onchange="handleFileUpload(event)">
+              </label>
+            </div>
+            <button class="btn btn-primary" onclick="synthesizeNotes()">
+              <i data-lucide="sparkles" style="width: 16px; height: 16px;"></i> Synthesize Key Insights
+            </button>
+          </div>
+        </div>
+
+        <div id="summary-results-pane" class="hidden">
+          <div class="card">
+            <h2 class="serif-heading" style="font-size: 1.6rem; margin-bottom: 8px;" id="out-doc-title">Document Summary</h2>
+            <div id="out-exec-summary" style="font-size: 0.95rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 20px;"></div>
+
+            <h3 style="font-size: 1.15rem; margin-bottom: 12px;">High-Yield Concept Takeaways</h3>
+            <ul id="out-bullet-points" style="padding-left: 20px; line-height: 1.7; font-size: 0.92rem; color: var(--text-main); margin-bottom: 28px;">
+            </ul>
+
+            <h3 style="font-size: 1.15rem; margin-bottom: 12px;">Active Recall Flashcards</h3>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">Click any card to flip between Prompt and Key Fact.</p>
+            <div id="out-flashcards-grid" class="grid-2">
+              <!-- Rendered dynamic flashcards -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB: FOCUS CHRONOMETER -->
+      <section id="tab-focus" class="hidden">
+        <header class="page-header">
+          <div class="header-title">
+            <h1>Focus Chronometer</h1>
+            <p>Deliberate, uninterrupted intervals designed for deep cognitive study.</p>
+          </div>
+        </header>
+
+        <div class="grid-2">
+          <div class="card" style="text-align: center;">
+            <div class="pill-selector" style="max-width: 280px; margin: 0 auto 16px;">
+              <button class="pill-btn active" id="timer-mode-deep" onclick="setTimerMode(25)">25m Deep Work</button>
+              <button class="pill-btn" id="timer-mode-long" onclick="setTimerMode(50)">50m Intensive</button>
+              <button class="pill-btn" id="timer-mode-rest" onclick="setTimerMode(5)">5m Rest</button>
+            </div>
+
+            <div class="timer-display" id="timer-display">25:00</div>
+
+            <div style="display: flex; gap: 10px; justify-content: center;">
+              <button class="btn btn-primary" id="timer-toggle-btn" onclick="toggleTimer()">Start Session</button>
+              <button class="btn btn-secondary" onclick="resetTimer()">Reset</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2 style="font-size: 1.2rem; margin-bottom: 12px;">Session Intentions</h2>
+            <div class="form-group">
+              <input type="text" id="focus-task-input" class="input-field" placeholder="What single concept are you conquering right now?" onkeydown="if(event.key==='Enter') addFocusTask()" />
+            </div>
+            <ul id="focus-task-list" class="topic-checklist" style="max-height: 180px;">
+              <!-- Local rapid list -->
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODAL: ADD SUBJECT & SYLLABUS -->
+  <div id="subject-modal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px;">
+        <h2 style="font-size: 1.4rem;">Add Subject & Exam Plan</h2>
+        <button onclick="closeSubjectModal()" style="background: none; border: none; cursor: pointer; color: var(--text-faint);">
+          <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+        </button>
+      </div>
+
+      <form id="form-subject" onsubmit="handleSaveSubject(event)">
+        <div class="form-group">
+          <label>Subject Name</label>
+          <input type="text" id="sub-title" class="input-field" placeholder="e.g. Organic Chemistry, Macroeconomics, Linear Algebra" required />
+        </div>
+
+        <div class="form-group">
+          <label>Target Exam Date</label>
+          <input type="date" id="sub-date" class="input-field" required />
+        </div>
+
+        <div class="form-group">
+          <label>Syllabus Chapters / Topics (One per line)</label>
+          <textarea id="sub-chapters" class="input-field" rows="5" placeholder="Chapter 1: Reaction Mechanisms&#10;Chapter 2: Alkene Reactions&#10;Chapter 3: Stereochemistry&#10;Chapter 4: Aromaticity" required></textarea>
+        </div>
+
+        <div class="action-row" style="margin-top: 24px;">
+          <button type="button" class="btn btn-secondary" onclick="closeSubjectModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="width: auto;">Save & Calculate Velocity</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- SCRIPT ENGINE -->
+  <script>
+    // System State Keys
+    const STORAGE_KEY_AUTH = 'studydude_auth_session';
+    const STORAGE_KEY_DATA = 'studydude_academic_db';
+    const STORAGE_KEY_THEME = 'studydude_theme';
+
+    let currentSession = null;
+    let studentDB = {
+      profile: null,
+      subjects: [],
+      focusTasks: []
+    };
+
+    // Pomodoro internal state
+    let timerDuration = 25 * 60;
+    let timerRemaining = 25 * 60;
+    let timerInterval = null;
+    let isTimerActive = false;
+
+    // Bootstrapping Engine
+    window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      initSession();
+      lucide.createIcons();
+    });
+
+    // Theme initialization
+    function initTheme() {
+      const savedTheme = localStorage.getItem(STORAGE_KEY_THEME) || 'light';
+      if (savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const target = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', target);
+      localStorage.setItem(STORAGE_KEY_THEME, target);
+      lucide.createIcons();
+    }
+
+    // Session Initialization: checks if already signed in
+    function initSession() {
+      const session = localStorage.getItem(STORAGE_KEY_AUTH);
+      if (session) {
+        currentSession = JSON.parse(session);
+        loadUserData(currentSession.username);
+        renderWorkspace();
+      } else {
+        showAuthStage('login');
+      }
+    }
+
+    function loadUserData(username) {
+      const raw = localStorage.getItem(`${STORAGE_KEY_DATA}_${username}`);
+      if (raw) {
+        studentDB = JSON.parse(raw);
+      } else {
+        studentDB = {
+          profile: null,
+          subjects: [],
+          focusTasks: []
+        };
+      }
+    }
+
+    function persistUserData() {
+      if (!currentSession) return;
+      localStorage.setItem(`${STORAGE_KEY_DATA}_${currentSession.username}`, JSON.stringify(studentDB));
+    }
+
+    // Auth Flows
+    function showAuthStage(stage) {
+      document.getElementById('auth-view').classList.remove('hidden');
+      document.getElementById('app-workspace').classList.add('hidden');
+      
+      if (stage === 'login') {
+        document.getElementById('auth-step-login').classList.remove('hidden');
+        document.getElementById('auth-step-profile').classList.add('hidden');
+      } else {
+        document.getElementById('auth-step-login').classList.add('hidden');
+        document.getElementById('auth-step-profile').classList.remove('hidden');
+      }
+    }
+
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      const username = document.getElementById('login-username').value.trim();
+      const pin = document.getElementById('login-pin').value.trim();
+
+      if (!username || !pin) return;
+
+      currentSession = { username };
+      localStorage.setItem(STORAGE_KEY_AUTH, JSON.stringify(currentSession));
+      loadUserData(username);
+
+      if (!studentDB.profile) {
+        showAuthStage('profile');
+      } else {
+        renderWorkspace();
+      }
+    }
+
+    let institutionType = 'school';
+    function toggleInstType(type) {
+      institutionType = type;
+      if (type === 'school') {
+        document.getElementById('btn-type-school').classList.add('active');
+        document.getElementById('btn-type-college').classList.remove('active');
+        document.getElementById('school-fields').classList.remove('hidden');
+        document.getElementById('college-fields').classList.add('hidden');
+      } else {
+        document.getElementById('btn-type-school').classList.remove('active');
+        document.getElementById('btn-type-college').classList.add('active');
+        document.getElementById('school-fields').classList.add('hidden');
+        document.getElementById('college-fields').classList.remove('hidden');
+      }
+    }
+
+    function handleProfileSubmit(e) {
+      e.preventDefault();
+      const fullName = document.getElementById('prof-fullname').value.trim();
+      
+      let academicTag = '';
+      if (institutionType === 'school') {
+        academicTag = document.getElementById('prof-standard').value;
+      } else {
+        const course = document.getElementById('prof-course').value.trim() || 'College Degree';
+        const sem = document.getElementById('prof-sem').value.trim() || 'Active Term';
+        academicTag = `${course} · ${sem}`;
+      }
+
+      studentDB.profile = {
+        name: fullName,
+        instType: institutionType,
+        tag: academicTag
+      };
+
+      persistUserData();
+      renderWorkspace();
+    }
+
+    function handleLogout() {
+      if (confirm('Are you sure you want to sign out from this device?')) {
+        localStorage.removeItem(STORAGE_KEY_AUTH);
+        currentSession = null;
+        document.getElementById('form-login').reset();
+        showAuthStage('login');
+      }
+    }
+
+    // Workspace Rendering
+    function renderWorkspace() {
+      document.getElementById('auth-view').classList.add('hidden');
+      document.getElementById('app-workspace').classList.remove('hidden');
+
+      // Update Nav profile
+      const prof = studentDB.profile || { name: 'Student', tag: 'Academic Plan' };
+      document.getElementById('nav-fullname').textContent = prof.name;
+      document.getElementById('nav-inst-details').textContent = prof.tag;
+      document.getElementById('nav-avatar').textContent = prof.name.charAt(0).toUpperCase();
+      document.getElementById('dash-greeting').textContent = `Greetings, ${prof.name.split(' ')[0]}`;
+
+      renderSubjectsList();
+      renderPlannerList();
+      renderFocusTasks();
+      lucide.createIcons();
+    }
+
+    function switchTab(tabId) {
+      ['dashboard', 'planner', 'summarizer', 'focus'].forEach(t => {
+        document.getElementById(`tab-${t}`).classList.add('hidden');
+      });
+      document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+
+      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+      event.currentTarget.classList.add('active');
+      lucide.createIcons();
+    }
+
+    // Pacing and Calculation Algorithms
+    function computePace(examDateStr, topics) {
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      const exam = new Date(examDateStr);
+      exam.setHours(0,0,0,0);
+
+      const diffTime = exam - today;
+      const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      const total = topics.length;
+      const done = topics.filter(t => t.completed).length;
+      const pending = total - done;
+
+      let dailyRate = 0;
+      let status = 'steady';
+      let statusText = 'Pacing Steady';
+
+      if (daysLeft < 0) {
+        status = 'idle';
+        statusText = 'Exam Concluded';
+      } else if (daysLeft === 0) {
+        dailyRate = pending;
+        status = 'urgent';
+        statusText = 'Exam Today!';
+      } else if (pending === 0 && total > 0) {
+        status = 'ready';
+        statusText = 'Fully Prepared';
+      } else {
+        dailyRate = (pending / daysLeft).toFixed(1);
+        if (daysLeft <= 7 && pending > 3) {
+          status = 'urgent';
+          statusText = `${dailyRate} topics / day (Urgent)`;
+        } else {
+          statusText = `${dailyRate} topics / day`;
+        }
+      }
+
+      const percent = total === 0 ? 0 : Math.round((done / total) * 100);
+
+      return { daysLeft, total, done, pending, dailyRate, status, statusText, percent };
+    }
+
+    // Subject Rendering
+    function renderSubjectsList() {
+      const container = document.getElementById('subject-list-container');
+      const countTag = document.getElementById('subject-count-tag');
+      const nearestTag = document.getElementById('dash-nearest-exam');
+      const globalPctTag = document.getElementById('dash-global-pct');
+      const globalSubtext = document.getElementById('dash-global-subtext');
+
+      const subjects = studentDB.subjects || [];
+      countTag.textContent = `${subjects.length} active subject${subjects.length === 1 ? '' : 's'}`;
+
+      if (subjects.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i data-lucide="book-open" style="width: 32px; height: 32px;"></i>
+            <h3>No Academic Subjects Yet</h3>
+            <p>Add your first subject along with its exam date and syllabus to initialize your pacing calendar.</p>
+            <button class="btn btn-primary btn-sm" onclick="openSubjectModal()">
+              <i data-lucide="plus" style="width: 14px; height: 14px;"></i> Register First Subject
+            </button>
+          </div>
+        `;
+        nearestTag.innerHTML = `<span style="font-size: 0.95rem; color: var(--text-muted);">No exams scheduled.</span>`;
+        globalPctTag.textContent = '0%';
+        globalSubtext.textContent = '0 chapters mastered';
+        return;
+      }
+
+      // Calculations for overview stats
+      let totalChapters = 0;
+      let completedChapters = 0;
+      let nearestExam = null;
+
+      container.innerHTML = '';
+      subjects.forEach((sub, idx) => {
+        const pace = computePace(sub.examDate, sub.topics);
+        totalChapters += pace.total;
+        completedChapters += pace.done;
+
+        if (pace.daysLeft >= 0) {
+          if (!nearestExam || pace.daysLeft < nearestExam.days) {
+            nearestExam = { name: sub.name, days: pace.daysLeft, date: sub.examDate };
+          }
+        }
+
+        const card = document.createElement('div');
+        card.className = 'subject-card';
+        card.innerHTML = `
+          <div class="subject-header">
+            <div>
+              <h3 style="font-size: 1.25rem; font-weight: 600;">${escapeHtml(sub.name)}</h3>
+              <span class="mono" style="font-size: 0.78rem; color: var(--text-muted);">
+                Exam: ${sub.examDate} · ${pace.daysLeft >= 0 ? `${pace.daysLeft} days remaining` : 'Finished'}
+              </span>
+            </div>
+            <span class="badge badge-${pace.status}">${pace.statusText}</span>
+          </div>
+
+          <div class="progress-track">
+            <div class="progress-fill" style="width: ${pace.percent}%"></div>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted);" class="mono">
+            <span>${pace.done} of ${pace.total} completed</span>
+            <span>${pace.percent}%</span>
+          </div>
+
+          <ul class="topic-checklist">
+            ${sub.topics.map((t, tIdx) => `
+              <li class="topic-item ${t.completed ? 'completed' : ''}">
+                <input type="checkbox" ${t.completed ? 'checked' : ''} onchange="toggleTopic(${idx}, ${tIdx})">
+                <span style="flex: 1;">${escapeHtml(t.title)}</span>
+              </li>
+            `).join('')}
+          </ul>
+        `;
+        container.appendChild(card);
+      });
+
+      // Update global metrics
+      const globalPct = totalChapters === 0 ? 0 : Math.round((completedChapters / totalChapters) * 100);
+      globalPctTag.textContent = `${globalPct}%`;
+      globalSubtext.textContent = `${completedChapters} of ${totalChapters} syllabus topics cleared`;
+
+      if (nearestExam) {
+        nearestTag.innerHTML = `
+          <span style="font-size: 1.3rem; font-weight: 600;">${escapeHtml(nearestExam.name)}</span>
+          <div class="mono" style="font-size: 0.85rem; color: ${nearestExam.days <= 5 ? 'var(--red)' : 'var(--text-muted)'}; margin-top: 2px;">
+            ${nearestExam.days === 0 ? 'Exam is scheduled for today!' : `${nearestExam.days} days away (${nearestExam.date})`}
+          </div>
+        `;
+      } else {
+        nearestTag.innerHTML = `<span style="font-size: 0.95rem; color: var(--text-muted);">All registered exams completed.</span>`;
+      }
+    }
+
+    function renderPlannerList() {
+      const container = document.getElementById('planner-subject-cards');
+      const subjects = studentDB.subjects || [];
+
+      if (subjects.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i data-lucide="calendar-x" style="width: 32px; height: 32px;"></i>
+            <h3>No Exam Schedules Active</h3>
+            <p>Set an exam date to receive calculated daily velocity quotas.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = '';
+      subjects.forEach((sub, idx) => {
+        const pace = computePace(sub.examDate, sub.topics);
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+            <div>
+              <h2 style="font-size: 1.35rem;">${escapeHtml(sub.name)}</h2>
+              <p class="mono" style="font-size: 0.82rem; color: var(--text-muted);">Exam Scheduled: ${sub.examDate}</p>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="deleteSubject(${idx})" style="color: var(--red);">
+              <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i> Remove
+            </button>
+          </div>
+
+          <div class="grid-2" style="margin-bottom: 16px;">
+            <div style="background: var(--bg); padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+              <span class="mono" style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Days Remaining</span>
+              <div style="font-size: 1.4rem; font-weight: 700; margin-top: 4px;">${pace.daysLeft >= 0 ? pace.daysLeft : 0}</div>
+            </div>
+            <div style="background: var(--bg); padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+              <span class="mono" style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Pace Requirement</span>
+              <div style="font-size: 1.4rem; font-weight: 700; margin-top: 4px; color: ${pace.status === 'urgent' ? 'var(--red)' : 'var(--text-main)'};">
+                ${pace.dailyRate} <span style="font-size: 0.8rem; font-weight: 500;">topics/day</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="font-size: 0.85rem; font-weight: 600; margin-bottom: 8px;">Detailed Syllabus Checklist</div>
+          <ul class="topic-checklist">
+            ${sub.topics.map((t, tIdx) => `
+              <li class="topic-item ${t.completed ? 'completed' : ''}">
+                <input type="checkbox" ${t.completed ? 'checked' : ''} onchange="toggleTopic(${idx}, ${tIdx})">
+                <span style="flex: 1;">${escapeHtml(t.title)}</span>
+              </li>
+            `).join('')}
+          </ul>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Subject Mutators
+    function openSubjectModal() {
+      document.getElementById('form-subject').reset();
+      document.getElementById('subject-modal').classList.remove('hidden');
+    }
+
+    function closeSubjectModal() {
+      document.getElementById('subject-modal').classList.add('hidden');
+    }
+
+    function handleSaveSubject(e) {
+      e.preventDefault();
+      const name = document.getElementById('sub-title').value.trim();
+      const examDate = document.getElementById('sub-date').value;
+      const rawChapters = document.getElementById('sub-chapters').value.split('\n');
+
+      const topics = rawChapters
+        .map(ch => ch.trim())
+        .filter(ch => ch.length > 0)
+        .map(ch => ({ title: ch, completed: false }));
+
+      if (topics.length === 0) {
+        alert('Please specify at least one syllabus topic or chapter.');
+        return;
+      }
+
+      studentDB.subjects.push({ name, examDate, topics });
+      persistUserData();
+      closeSubjectModal();
+      renderSubjectsList();
+      renderPlannerList();
+      lucide.createIcons();
+    }
+
+    function toggleTopic(subIdx, topicIdx) {
+      studentDB.subjects[subIdx].topics[topicIdx].completed = !studentDB.subjects[subIdx].topics[topicIdx].completed;
+      persistUserData();
+      renderSubjectsList();
+      renderPlannerList();
+    }
+
+    function deleteSubject(idx) {
+      if (confirm('Delete this subject and its associated syllabus progression?')) {
+        studentDB.subjects.splice(idx, 1);
+        persistUserData();
+        renderSubjectsList();
+        renderPlannerList();
+        lucide.createIcons();
+      }
+    }
+
+    // Material Synthesizer & Note Summarizer
+    function handleFileUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        document.getElementById('summary-raw-text').value = evt.target.result;
+        if (!document.getElementById('summary-doc-title').value) {
+          document.getElementById('summary-doc-title').value = file.name.replace(/\.[^/.]+$/, "");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function synthesizeNotes() {
+      const title = document.getElementById('summary-doc-title').value.trim() || 'Academic Reference Material';
+      const text = document.getElementById('summary-raw-text').value.trim();
+
+      if (text.length < 40) {
+        alert('Please supply sufficient text or notes to extract meaningful high-yield insights.');
+        return;
+      }
+
+      // Client-side extraction engine for study summaries
+      const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+      const cleaned = sentences.map(s => s.trim()).filter(s => s.length > 15);
+
+      // Create an overview summary
+      const execSummary = cleaned.slice(0, Math.min(3, cleaned.length)).join(' ');
+
+      // Extract key concept bullet points
+      const keyPoints = [];
+      const step = Math.max(1, Math.floor(cleaned.length / 5));
+      for (let i = 0; i < cleaned.length && keyPoints.length < 5; i += step) {
+        keyPoints.push(cleaned[i]);
+      }
+
+      // Generate active-recall flashcard pairs
+      const flashcards = [];
+      cleaned.forEach((sent, index) => {
+        if (flashcards.length >= 4) return;
+        const words = sent.split(' ');
+        if (words.length > 7) {
+          const splitPoint = Math.floor(words.length / 2);
+          flashcards.push({
+            front: words.slice(0, splitPoint).join(' ') + '...?',
+            back: words.slice(splitPoint).join(' ')
+          });
+        }
+      });
+
+      // Render out synthesis
+      document.getElementById('out-doc-title').textContent = title;
+      document.getElementById('out-exec-summary').textContent = execSummary;
+
+      const bulletContainer = document.getElementById('out-bullet-points');
+      bulletContainer.innerHTML = keyPoints.map(pt => `<li>${escapeHtml(pt)}</li>`).join('');
+
+      const fcContainer = document.getElementById('out-flashcards-grid');
+      fcContainer.innerHTML = flashcards.map((fc, i) => `
+        <div class="flashcard" onclick="flipCard(this)">
+          <div class="flashcard-indicator">Active Recall · Card ${i + 1} (Tap to Flip)</div>
+          <div class="fc-front" style="font-weight: 600; font-size: 0.95rem;">${escapeHtml(fc.front)}</div>
+          <div class="fc-back hidden" style="font-size: 0.9rem; color: var(--accent);">${escapeHtml(fc.back)}</div>
+        </div>
+      `).join('');
+
+      document.getElementById('summary-results-pane').classList.remove('hidden');
+      document.getElementById('summary-results-pane').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function flipCard(el) {
+      const front = el.querySelector('.fc-front');
+      const back = el.querySelector('.fc-back');
+      front.classList.toggle('hidden');
+      back.classList.toggle('hidden');
+    }
+
+    // Pomodoro Chronometer
+    function setTimerMode(mins) {
+      clearInterval(timerInterval);
+      isTimerActive = false;
+      document.getElementById('timer-toggle-btn').textContent = 'Start Session';
+      timerDuration = mins * 60;
+      timerRemaining = timerDuration;
+      updateTimerDisplay();
+
+      document.querySelectorAll('#tab-focus .pill-btn').forEach(btn => btn.classList.remove('active'));
+      if (mins === 25) document.getElementById('timer-mode-deep').classList.add('active');
+      if (mins === 50) document.getElementById('timer-mode-long').classList.add('active');
+      if (mins === 5) document.getElementById('timer-mode-rest').classList.add('active');
+    }
+
+    function updateTimerDisplay() {
+      const mins = Math.floor(timerRemaining / 60);
+      const secs = timerRemaining % 60;
+      document.getElementById('timer-display').textContent = 
+        `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function toggleTimer() {
+      if (isTimerActive) {
+        clearInterval(timerInterval);
+        isTimerActive = false;
+        document.getElementById('timer-toggle-btn').textContent = 'Resume Session';
+      } else {
+        isTimerActive = true;
+        document.getElementById('timer-toggle-btn').textContent = 'Pause Session';
+        timerInterval = setInterval(() => {
+          if (timerRemaining > 0) {
+            timerRemaining--;
+            updateTimerDisplay();
+          } else {
+            clearInterval(timerInterval);
+            isTimerActive = false;
+            alert('Study interval concluded. Time to rest your mind.');
+            resetTimer();
+          }
+        }, 1000);
+      }
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      isTimerActive = false;
+      timerRemaining = timerDuration;
+      document.getElementById('timer-toggle-btn').textContent = 'Start Session';
+      updateTimerDisplay();
+    }
+
+    // Session Intentions Checklist
+    function addFocusTask() {
+      const input = document.getElementById('focus-task-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      studentDB.focusTasks.push({ text, completed: false });
+      persistUserData();
+      renderFocusTasks();
+      input.value = '';
+    }
+
+    function toggleFocusTask(idx) {
+      studentDB.focusTasks[idx].completed = !studentDB.focusTasks[idx].completed;
+      persistUserData();
+      renderFocusTasks();
+    }
+
+    function renderFocusTasks() {
+      const container = document.getElementById('focus-task-list');
+      const tasks = studentDB.focusTasks || [];
+
+      container.innerHTML = tasks.map((t, idx) => `
+        <li class="topic-item ${t.completed ? 'completed' : ''}">
+          <input type="checkbox" ${t.completed ? 'checked' : ''} onchange="toggleFocusTask(${idx})">
+          <span style="flex: 1;">${escapeHtml(t.text)}</span>
+        </li>
+      `).join('');
+    }
+
+    // Sanitizer Utility
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/[&<>"']/g, function(m) {
+        return {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#039;'
+        }[m];
+      });
+    }
+  </script>
+</body>
+</html>
